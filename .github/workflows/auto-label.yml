@@ -1,0 +1,104 @@
+name: 🏷️ Auto Label Issues
+
+on:
+  issues:
+    types: [opened, edited]
+  pull_requests:
+    types: [opened, edited]
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Auto-label based on title and content
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+          include-title: true
+          
+      - name: Add component labels based on checkboxes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue || context.payload.pull_request;
+            const body = issue.body || '';
+            
+            // Component mappings based on checkbox selections
+            const componentMappings = {
+              'madcore': 'component/madcore',
+              'maditemmaker': 'component/maditemmaker', 
+              'madquestmaker': 'component/madquestmaker',
+              'theme-editor': 'component/theme-editor',
+              'story-engine': 'component/story-engine',
+              'terminal-kingpin': 'component/terminal-kingpin',
+              'madhub-web': 'component/madhub-web',
+              'mad-toolbox': 'component/mad-toolbox'
+            };
+            
+            const labelsToAdd = [];
+            
+            // Check for selected components
+            for (const [component, label] of Object.entries(componentMappings)) {
+              const regex = new RegExp(`- \\[x\\].*${component}`, 'i');
+              if (regex.test(body)) {
+                labelsToAdd.push(label);
+              }
+            }
+            
+            // Add platform labels based on template
+            if (issue.title.includes('[WEB]')) {
+              labelsToAdd.push('platform/web');
+            } else if (issue.title.includes('[DESKTOP]')) {
+              labelsToAdd.push('platform/desktop');
+            }
+            
+            // Add priority labels based on keywords
+            const urgentKeywords = ['crash', 'data loss', 'security', 'critical', 'blocking'];
+            const highKeywords = ['important', 'high priority', 'urgent'];
+            
+            const titleAndBody = (issue.title + ' ' + body).toLowerCase();
+            
+            if (urgentKeywords.some(keyword => titleAndBody.includes(keyword))) {
+              labelsToAdd.push('priority/critical');
+            } else if (highKeywords.some(keyword => titleAndBody.includes(keyword))) {
+              labelsToAdd.push('priority/high');
+            }
+            
+            // Apply labels if any were found
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: labelsToAdd
+              });
+            }
+
+      - name: Add welcome comment for first-time contributors
+        uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            👋 **Welcome to Mad Apps Suite!**
+            
+            Thank you for taking the time to report this issue! This helps make Mad Apps better for everyone.
+            
+            **What happens next?**
+            - 🏷️ Your issue has been automatically labeled based on the content
+            - 👀 A maintainer will review and triage this issue within 24-48 hours
+            - 📋 We may ask for additional information if needed
+            
+            **While you wait:**
+            - 🔍 Check if there are any [similar issues](https://github.com/mad/mad-apps-issues/issues) 
+            - 💬 Join our [discussions](https://github.com/mad/mad-apps-issues/discussions) for general questions
+            - 📖 Browse our [documentation](https://github.com/mad/mad-apps-issues/wiki)
+            
+            Thanks for being part of the Mad Apps community! 🚀

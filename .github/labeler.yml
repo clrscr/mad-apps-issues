@@ -1,0 +1,271 @@
+# Auto-labeling configuration for GitHub Issues
+# This file defines patterns that automatically apply labels based on issue content
+
+# Component Labels - Based on keywords in title and body
+'component/madcore':
+  - '*madcore*'
+  - '*BaseApplication*'
+  - '*BaseWindow*'
+  - '*BaseScreen*'
+  - '*BaseDialog*'
+  - '*FormBuilder*'
+  - '*SettingsManager*'
+  - '*CacheManager*'
+  - '*ErrorManager*'
+  - '*APIManager*'
+  - '*gui framework*'
+  - '*protocol*'
+
+'component/maditemmaker':
+  - '*maditemmaker*'
+  - '*item editor*'
+  - '*rpg item*'
+  - '*terminal kingpin integration*'
+  - '*item export*'
+  - '*item import*'
+  - '*59 fields*'
+  - '*item workshop*'
+
+'component/madquestmaker':
+  - '*madquestmaker*'
+  - '*quest*'
+  - '*quest editor*'
+  - '*quest creation*'
+  - '*dialogue tree*'
+  - '*npc*'
+  - '*quest forge*'
+
+'component/theme-editor':
+  - '*theme editor*'
+  - '*theme-editor*'
+  - '*theme*'
+  - '*color*'
+  - '*styling*'
+  - '*css*'
+  - '*theme studio*'
+
+'component/story-engine':
+  - '*madlibs*'
+  - '*story*'
+  - '*narrative*'
+  - '*story engine*'
+  - '*story branching*'
+  - '*ai generation*'
+  - '*openai*'
+  - '*prompt*'
+
+'component/terminal-kingpin':
+  - '*terminal kingpin*'
+  - '*kingpin*'
+  - '*drug*'
+  - '*game*'
+  - '*rpg*'
+  - '*turn-based*'
+
+'component/madhub-web':
+  - '*madhub*'
+  - '*web platform*'
+  - '*api*'
+  - '*frontend*'
+  - '*backend*'
+  - '*react*'
+  - '*nextjs*'
+  - '*fastapi*'
+  - '*web*'
+
+'component/mad-toolbox':
+  - '*mad-toolbox*'
+  - '*toolbox*'
+  - '*utility*'
+  - '*converter*'
+  - '*mlx*'
+  - '*ocr*'
+  - '*dataset*'
+
+# Type Labels - Based on keywords
+'type/bug':
+  - '*bug*'
+  - '*error*'
+  - '*broken*'
+  - '*not working*'
+  - '*crash*'
+  - '*exception*'
+  - '*traceback*'
+  - '*fails*'
+  - '*issue*'
+
+'type/feature':
+  - '*feature*'
+  - '*enhancement*'
+  - '*improvement*'
+  - '*add*'
+  - '*support*'
+  - '*implement*'
+  - '*new*'
+
+'type/documentation':
+  - '*documentation*'
+  - '*docs*'
+  - '*readme*'
+  - '*tutorial*'
+  - '*guide*'
+  - '*api reference*'
+  - '*instructions*'
+
+'type/performance':
+  - '*performance*'
+  - '*slow*'
+  - '*speed*'
+  - '*memory*'
+  - '*cpu*'
+  - '*optimization*'
+  - '*lag*'
+  - '*freeze*'
+
+'type/security':
+  - '*security*'
+  - '*vulnerability*'
+  - '*exploit*'
+  - '*injection*'
+  - '*xss*'
+  - '*csrf*'
+  - '*authentication*'
+  - '*authorization*'
+
+# Priority Labels - Based on urgency keywords  
+'priority/critical':
+  - '*critical*'
+  - '*urgent*'
+  - '*blocking*'
+  - '*data loss*'
+  - '*security*'
+  - '*crash*'
+  - '*production*'
+  - '*broken*'
+
+'priority/high':
+  - '*high priority*'
+  - '*important*'
+  - '*major*'
+  - '*significant*'
+
+'priority/low':
+  - '*low priority*'
+  - '*minor*'
+  - '*nice to have*'
+  - '*enhancement*'
+  - '*cosmetic*'
+
+# Platform Labels
+'platform/desktop':
+  - '*desktop*'
+  - '*pyside6*'
+  - '*qt*'
+  - '*windows*'
+  - '*macos*'
+  - '*linux*'
+  - '*executable*'
+  - '*installer*'
+
+'platform/web':
+  - '*web*'
+  - '*browser*'
+  - '*http*'
+  - '*api*'
+  - '*frontend*'
+  - '*backend*'
+  - '*server*'
+
+'platform/all':
+  - '*cross-platform*'
+  - '*all platforms*'
+  - '*universal*'
+
+# Difficulty Labels
+'difficulty/easy':
+  - '*easy*'
+  - '*simple*'
+  - '*quick*'
+  - '*good first issue*'
+  - '*beginner*'
+
+'difficulty/medium':
+  - '*medium*'
+  - '*moderate*'
+  - '*intermediate*'
+
+'difficulty/hard':
+  - '*hard*'
+  - '*complex*'
+  - '*difficult*'
+  - '*advanced*'
+  - '*architecture*'
+
+# Area Labels
+'area/ui-ux':
+  - '*ui*'
+  - '*ux*'
+  - '*interface*'
+  - '*design*'
+  - '*usability*'
+  - '*user experience*'
+
+'area/api':
+  - '*api*'
+  - '*endpoint*'
+  - '*rest*'
+  - '*graphql*'
+  - '*json*'
+
+'area/database':
+  - '*database*'
+  - '*sql*'
+  - '*postgresql*'
+  - '*data*'
+  - '*schema*'
+
+'area/authentication':
+  - '*auth*'
+  - '*login*'
+  - '*signup*'
+  - '*password*'
+  - '*jwt*'
+  - '*oauth*'
+
+'area/testing':
+  - '*test*'
+  - '*testing*'
+  - '*pytest*'
+  - '*unittest*'
+  - '*coverage*'
+
+'area/deployment':
+  - '*deploy*'
+  - '*deployment*'
+  - '*docker*'
+  - '*kubernetes*'
+  - '*production*'
+
+# Status Labels (these are typically added manually but can be triggered)
+'needs-more-info':
+  - '*incomplete*'
+  - '*more info*'
+  - '*clarification*'
+
+'duplicate':
+  - '*duplicate*'
+  - '*already reported*'
+  - '*same as*'
+
+# Special Labels
+'good-first-issue':
+  - '*good first issue*'
+  - '*beginner*'
+  - '*newcomer*'
+  - '*easy*'
+
+'help-wanted':
+  - '*help wanted*'
+  - '*looking for help*'
+  - '*volunteers*'
+  - '*community*'

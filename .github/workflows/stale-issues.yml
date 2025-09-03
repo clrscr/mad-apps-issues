@@ -1,0 +1,100 @@
+name: 🧹 Stale Issues Management
+
+on:
+  schedule:
+    # Run every day at 1 AM UTC
+    - cron: '0 1 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Mark/Close Stale Issues and PRs
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+          # Issues configuration
+          days-before-issue-stale: 30
+          days-before-issue-close: 14
+          stale-issue-message: |
+            🕰️ **This issue has been automatically marked as stale**
+            
+            This issue has been open for 30 days without recent activity. It will be closed in 14 days if no further activity occurs.
+            
+            **To keep this issue open:**
+            - Add a comment with updates or additional information
+            - Add the `keep-open` label
+            - Reference this issue in a pull request
+            
+            **If this issue is still relevant:**
+            - Please confirm it's still an issue in the latest version
+            - Provide any additional context or updates
+            
+            Thank you for your contributions to Mad Apps Suite! 🚀
+          
+          close-issue-message: |
+            🔒 **This issue has been automatically closed due to inactivity**
+            
+            This issue was closed because it has been stale for 14 days with no activity.
+            
+            **This doesn't mean your issue isn't important!**
+            - If this issue is still relevant, please reopen it
+            - Add any new information or context
+            - We're always happy to revisit closed issues
+            
+            Thank you for helping improve Mad Apps Suite! 💙
+
+          # Pull requests configuration  
+          days-before-pr-stale: 14
+          days-before-pr-close: 7
+          stale-pr-message: |
+            🕰️ **This pull request has been automatically marked as stale**
+            
+            This PR has been open for 14 days without recent activity. It will be closed in 7 days if no further activity occurs.
+            
+            **To keep this PR open:**
+            - Push new commits or updates
+            - Add a comment with progress updates
+            - Add the `keep-open` label
+            
+            **If you need help:**
+            - Ask questions in the comments
+            - Request a review from maintainers
+            
+            Thanks for your contribution! 🙏
+          
+          close-pr-message: |
+            🔒 **This pull request has been automatically closed due to inactivity**
+            
+            This PR was closed because it has been stale for 7 days with no activity.
+            
+            **To reopen this PR:**
+            - Push new commits to the branch
+            - Leave a comment explaining the current status
+            - We can always reopen if you're still working on this
+            
+            Thank you for your contribution to Mad Apps Suite! 🚀
+
+          # Labels
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale' 
+          exempt-issue-labels: 'keep-open,priority/critical,priority/high,in-progress,blocked'
+          exempt-pr-labels: 'keep-open,in-progress,blocked'
+          
+          # Only process a limited number to avoid rate limits
+          operations-per-run: 30
+          
+          # Don't mark issues stale if they have these labels
+          exempt-all-milestones: true
+          
+          # Custom messages for different issue types
+          exempt-draft-pr: true
+          
+          # Enable debug logging
+          debug-only: false

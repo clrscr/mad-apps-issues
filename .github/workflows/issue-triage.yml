@@ -1,0 +1,141 @@
+name: 🔍 Issue Triage
+
+on:
+  issues:
+    types: [opened, labeled]
+  schedule:
+    # Run triage check every day at 9 AM UTC
+    - cron: '0 9 * * *'
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      
+    steps:
+      - name: Move critical issues to urgent column
+        uses: actions/github-script@v7
+        if: github.event_name == 'issues' && github.event.action == 'labeled'
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const label = context.payload.label;
+            
+            if (label.name === 'priority/critical') {
+              // Add urgent label and comment
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: ['needs-immediate-attention']
+              });
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: '🚨 **Critical Issue Detected**\n\nThis issue has been marked as critical and needs immediate attention. A maintainer will review this ASAP.\n\nIf this is a security issue, please also email security@mad-apps.com with details.'
+              });
+            }
+
+      - name: Check for stale triage issues
+        uses: actions/github-script@v7
+        if: github.event_name == 'schedule'
+        with:
+          script: |
+            // Find issues that have been in triage for more than 48 hours
+            const twoDaysAgo = new Date();
+            twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+            
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'status/triage',
+              state: 'open',
+              sort: 'created',
+              direction: 'asc'
+            });
+            
+            for (const issue of issues) {
+              const createdDate = new Date(issue.created_at);
+              if (createdDate < twoDaysAgo) {
+                // Add stale triage label
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['triage-overdue']
+                });
+                
+                // Add comment
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: '⏰ **Triage Overdue**\n\nThis issue has been waiting for triage for more than 48 hours. A maintainer will review this soon.\n\n*This is an automated message.*'
+                });
+              }
+            }
+
+      - name: Auto-close duplicate issues
+        uses: actions/github-script@v7
+        if: github.event_name == 'issues' && github.event.action == 'labeled'
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const label = context.payload.label;
+            
+            if (label.name === 'duplicate') {
+              // Close the issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed'
+              });
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: '🔄 **Duplicate Issue**\n\nThis issue appears to be a duplicate of another issue. The issue has been closed.\n\nIf you believe this is incorrect, please reopen the issue with additional context explaining why this is not a duplicate.\n\n*This is an automated action.*'
+              });
+            }
+
+      - name: Request more info on incomplete issues
+        uses: actions/github-script@v7
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || '';
+            
+            // Check if required sections are missing or empty
+            const requiredSections = [
+              'Steps to Reproduce',
+              'Expected Behavior', 
+              'Actual Behavior'
+            ];
+            
+            const missingSections = requiredSections.filter(section => {
+              const regex = new RegExp(`##.*${section}[\\s\\S]*?(?=##|$)`, 'i');
+              const match = body.match(regex);
+              return !match || match[0].replace(/^##.*$/gm, '').trim().length < 20;
+            });
+            
+            if (missingSections.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: ['needs-more-info']
+              });
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `📋 **Additional Information Needed**\n\nThank you for reporting this issue! To help us investigate, please provide more details in these sections:\n\n${missingSections.map(s => `- ${s}`).join('\n')}\n\nThe more details you can provide, the faster we can help resolve this issue. Please edit your original issue description to add the missing information.\n\n*This is an automated message.*`
+              });
+            }

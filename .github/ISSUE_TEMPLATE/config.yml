@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 General Discussion
+    url: https://github.com/mad/mad-apps-issues/discussions
+    about: For general questions, ideas, and community discussion
+  - name: 🚀 Feature Voting
+    url: https://github.com/mad/mad-apps-issues/discussions/categories/feature-requests
+    about: Vote on and discuss upcoming features
+  - name: 🆘 Get Help
+    url: https://github.com/mad/mad-apps-issues/discussions/categories/q-a
+    about: Get help from the community and maintainers
