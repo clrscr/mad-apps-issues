@@ -4,12 +4,12 @@ Welcome to the central issue tracking repository for the **Mad Apps Suite** - a 
 
 ## 🚀 Quick Links
 
-- 📋 [**Report a Bug**](https://github.com/mad/mad-apps-issues/issues/new?template=bug_report.md)
-- ✨ [**Request a Feature**](https://github.com/mad/mad-apps-issues/issues/new?template=feature_request.md)
-- 🌐 [**Web Platform Issue**](https://github.com/mad/mad-apps-issues/issues/new?template=web_platform_issue.md)
-- 🖥️ [**Desktop App Issue**](https://github.com/mad/mad-apps-issues/issues/new?template=desktop_app_issue.md)
-- 📚 [**Documentation Issue**](https://github.com/mad/mad-apps-issues/issues/new?template=documentation_issue.md)
-- 💬 [**General Discussion**](https://github.com/mad/mad-apps-issues/discussions)
+- 📋 [**Report a Bug**](https://github.com/clrscr/mad-apps-issues/issues/new?template=bug_report.md)
+- ✨ [**Request a Feature**](https://github.com/clrscr/mad-apps-issues/issues/new?template=feature_request.md)
+- 🌐 [**Web Platform Issue**](https://github.com/clrscr/mad-apps-issues/issues/new?template=web_platform_issue.md)
+- 🖥️ [**Desktop App Issue**](https://github.com/clrscr/mad-apps-issues/issues/new?template=desktop_app_issue.md)
+- 📚 [**Documentation Issue**](https://github.com/clrscr/mad-apps-issues/issues/new?template=documentation_issue.md)
+- 💬 [**General Discussion**](https://github.com/clrscr/mad-apps-issues/discussions)
 
 ## 📦 Mad Apps Suite Components
 
@@ -111,9 +111,9 @@ Issues are automatically labeled based on content:
 - 🔍 Review pull requests
 
 ### Getting Help
-- 💬 [**Discussions**](https://github.com/mad/mad-apps-issues/discussions) for questions
-- 🆘 [**Q&A Section**](https://github.com/mad/mad-apps-issues/discussions/categories/q-a) for help
-- 📖 [**Documentation**](https://github.com/mad/mad-apps-issues/wiki) for guides
+- 💬 [**Discussions**](https://github.com/clrscr/mad-apps-issues/discussions) for questions
+- 🆘 [**Q&A Section**](https://github.com/clrscr/mad-apps-issues/discussions/categories/q-a) for help
+- 📖 [**Documentation**](docs/issue-guidelines.md) for guides
 
 ## 📈 Issue Lifecycle
 
